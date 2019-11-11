@@ -921,7 +921,15 @@ following commands are defined:
           (set (make-local-variable 'LaTeX-math-insert-function)
                'julia-math-insert)))))
 
-;; Code for `inferior-julia-mode'
+;;; Fill paragraph
+
+(defun julia-fill-paragraph ()
+  "`fill-paragraph-function' for `julia-mode' handling strings."
+  (interactive)
+  (save-excursion
+    (when (julia-in-string))))
+
+;;; Code for `inferior-julia-mode'
 (require 'comint)
 
 (defcustom julia-program "julia"
