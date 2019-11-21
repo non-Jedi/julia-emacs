@@ -2,7 +2,7 @@
 
 (defun julia-mode--add-dots (ops)
   "Return copy of OPS extended with each element prepended with \".\"."
-  (concatenate 'list ops (map 'list (lambda (op) (concat "." op)) ops)))
+  (concatenate 'list ops (mapcar (lambda (op) (concat "." op)) ops)))
 
 (eval-when-compile
   ;; TODO: use symbols instead of strings for operators?
