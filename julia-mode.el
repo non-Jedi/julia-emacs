@@ -748,6 +748,10 @@ Return nil if point is not in a function, otherwise point."
   (setq-local comment-use-syntax t)
   (setq-local comment-start "# ")
   (setq-local comment-start-skip "#+\\s-*")
+
+  (setq-local paragraph-start "\\s-*$")
+  (setq-local paragraph-separate paragraph-start)
+
   (setq-local font-lock-defaults '(julia-font-lock-keywords))
   (setq-local syntax-propertize-function julia-syntax-propertize-function)
   (setq-local indent-line-function #'julia-indent-line)
@@ -815,6 +819,28 @@ following commands are defined:
       nil nil (list (cons (LaTeX-math-abbrev-prefix) LaTeX-math-keymap))
       (if julia-math-mode
           (setq-local LaTeX-math-insert-function #'julia-math-insert)))))
+
+;;; Fill paragraph
+
+(defun julia-fill-paragraph (&optional justify)
+  "Fill paragraph of julia code, handling comments and multi-line strings."
+  (interactive "P")
+  (save-excursion
+    (cond
+     ((julia-in-comment)
+      (fill-comment-paragraph justify))
+     ((julia-in-string)
+      (julia-fill-string justify)))))
+
+(defun julia-fill-string (&optional justify)
+  "Fill paragraph of julia string literal.
+This assumes that any julia string literal simply consists of
+consecutive paragraphs of plain text separated by blank lines. Things
+like markdown lists are not handled."
+  ;; TODO: check for availability of markdown-mode and use its
+  ;; fill function?
+  (let ((str-start (set-marker (make-marker) (nth 8 (syntax-ppss))))
+        )))
 
 (provide 'julia-mode)
 
