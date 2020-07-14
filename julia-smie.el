@@ -85,6 +85,18 @@
            (dolist (x l) (puthash x t table))
            (lambda (x) (gethash x table nil))))))
 
+(defconst julia--no-suffix-p
+  (Set (append
+        prec-assignment prec-conditional prec-lazy-or prec-lazy-and
+        prec-colon prec-decl prec-dot
+        '(-- --> -> <: >: in isa $)
+        (list ctrans-op trans-op vararg-op))))
+
+(defun julia--maybe-strip-op-suffix (op)
+  ;; TODO: See https://github.com/JuliaLang/julia/blob/master/src/flisp/julia_opsuffs.h
+  ;; and https://github.com/JuliaLang/julia/blob/3935491dc5028f23587ca8df6d4e0de75cf50e53/src/flisp/julia_extensions.c#L154
+  op)
+
 (defconst julia--whitespace-chars
   (string 9 11 12 13 32 133 160 5760 6158 8192 8193 8194 8195 8196 8197 8198
           8199 8200 8201 8202 8232 8233 8239 8287 12288))
