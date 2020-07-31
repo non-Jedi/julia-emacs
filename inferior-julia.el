@@ -172,6 +172,7 @@ help, \"]\" uses the Pkg repl, and \";\" sends shell commands."
 Key bindings:
 \\<inferior-julia-mode-map>"
   :group 'inferior-julia
+  :abbrev-table julia-mode-abbrev-table
   (set-syntax-table inferior-julia-mode-syntax-table)
   (setq-local comment-use-syntax t)
   (setq-local comment-start "# ")
@@ -195,8 +196,7 @@ Key bindings:
   (setq-local comint-input-sender #'inferior-julia--send)
 
   (when julia-force-tab-complete
-    (setq-local tab-always-indent 'complete)
-    (abbrev-mode 1))
+    (setq-local tab-always-indent 'complete))
   (add-hook 'completion-at-point-functions
             #'julia-mode-latexsub-completion-at-point-before nil t)
   (add-hook 'completion-at-point-functions
